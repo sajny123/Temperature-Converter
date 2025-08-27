@@ -4,12 +4,12 @@ import viteLogo from '/vite.svg'
 // import './App.css'
 
 function App() {
-  const [selectedFromUnit, setSelectedFromUnit] = useState(null);
+  const [selectedFromUnit, setSelectedFromUnit] = useState("Fahrenheit");
   const handleFromUnitChange = (e) => {
     setSelectedFromUnit(e.target.value);
   }
 
-  const [selectedToUnit, setSelectedToUnit] = useState(null);
+  const [selectedToUnit, setSelectedToUnit] = useState("Fahrenheit");
   const handleToUnitChange = (e) => {
     setSelectedToUnit(e.target.value);
   }
@@ -20,46 +20,46 @@ const handleTempChange = (e) => {
 }
 
 const [convertedTemp, setConvertedTemp] = useState(null);
+const [returnMessage, setReturnMessage] = useState("");
+
 const handleSubmit = (e) => {
   e.preventDefault();
+  let result;
   if (selectedFromUnit === "Fahrenheit") {
-    if (selectedToUnit === "Celsiu") {
-      setConvertedTemp((temp - 32) * 5/9);
+    if (selectedToUnit === "Celsius") {
+      result = (temp - 32) * 5/9;
     }
     else if (selectedToUnit === "Kelvin") {
-      setConvertedTemp((temp - 32) * 5/9 + 273.15);
+      result = (temp - 32) * 5/9 + 273.15;
     }
     else {
-      setConvertedTemp(temp);
+      result = (temp);
     }
   }
   else if (selectedFromUnit === "Celsius") {
     if (selectedToUnit === "Fahrenheit") {
-      setConvertedTemp((temp * 9/5) + 32);
+      result = (temp * 9/5) + 32;
     }
     else if (selectedToUnit === "Kelvin") {
-      setConvertedTemp(temp + 273.15);
+      result = (temp + 273.15);
     }
     else {
-      setConvertedTemp(temp);
+      result = (temp);
     }
   }
   else if (selectedFromUnit === "Kelvin") {
     if (selectedToUnit === "Fahrenheit") {
-      setConvertedTemp((temp - 273.15) * 9/5 + 32);
+      result = (temp - 273.15) * 9/5 + 32;
     }
     else if (selectedToUnit === "Celsius") {
-      setConvertedTemp(temp - 273.15);
+      result = (temp - 273.15);
     }
     else {
-      setConvertedTemp(temp);
+      result = (temp);
     }
   }
-
-  useEffect(() => {
-    setConvertedTemp(null);
-  }, [selectedFromUnit, selectedToUnit, temp]);
-
+  setConvertedTemp(result.toFixed(2));
+  setReturnMessage(`${temp} ${selectedFromUnit} is ${result.toFixed(2)} ${selectedToUnit}`);
 }
 
   return (
@@ -77,6 +77,7 @@ const handleSubmit = (e) => {
             onChange={handleTempChange}
           />
           <select name="Units" placeholder="From Unit" onChange={handleFromUnitChange}>
+            <option value="" disabled>From Unit</option>
             <option value="Fahrenheit">Fahrenheit</option>
             <option value="Celsius">Celsius</option>
             <option value="Kelvin">Kelvin</option>
@@ -87,10 +88,8 @@ const handleSubmit = (e) => {
             <option value="Kelvin">Kelvin</option>
           </select>
           <button type="submit">Convert</button>
+          {returnMessage && <h3>{returnMessage}</h3>}
         </form>
-      </div>
-      <div>
-        <h3>{temp} {selectedFromUnit} is {convertedTemp} {selectedToUnit}</h3>
       </div>
     </>
   )
