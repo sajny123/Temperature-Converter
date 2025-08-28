@@ -69,6 +69,9 @@ const handleSubmit = (e) => {
         <h3>Enter the temperature, select units and submit</h3>
       </div>
       <div>
+        <img src="https://media.istockphoto.com/id/1308422040/vector/thermometer-icon-measurement-instrument.jpg?s=612x612&w=0&k=20&c=5ypTJEWrD97_geiI94XwqqmhP-fMisUhbFyD9j_Xirc=" alt="Thermometer Icon" width="200" height="200"/>
+      </div>
+      <div>
         <form onSubmit={handleSubmit}>
           <input
             type="number"
